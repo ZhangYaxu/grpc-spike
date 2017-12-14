@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package recording;
+option php_namespace="KobaltMusic/GRPC";
+
+import "google/protobuf/empty.proto";
+
+service RecordingService {
+  rpc AddRecording(Recording) returns (google.protobuf.Empty) {}
+  rpc ListRecordings(google.protobuf.Empty) returns (stream Recording) {}
+}
+
+message Author {
+  string name = 1;
+}
+
+message Recording {
+  Author author = 1;
+  string name = 2;
+}
