@@ -1,13 +1,17 @@
 syntax = "proto3";
 
 package recording;
-option php_namespace="KobaltMusic/GRPC";
-
-import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+option php_namespace="KobaltMusic\\Recording";
 
 service RecordingService {
-  rpc AddRecording(Recording) returns (google.protobuf.Empty) {}
-  rpc ListRecordings(google.protobuf.Empty) returns (stream Recording) {}
+  rpc AddRecording(Recording) returns (KBEmpty) {}
+  rpc ListRecordings(KBEmpty) returns (ListRecordingsResponse) {
+    option (google.api.http) = {
+      get: "/v1/recordings"
+    };
+  }
+  rpc ListRecordingsStream(KBEmpty) returns (stream Recording) {}
 }
 
 message Author {
@@ -18,3 +22,9 @@ message Recording {
   Author author = 1;
   string name = 2;
 }
+
+message ListRecordingsResponse {
+  repeated Recording recordings = 1;
+}
+
+message KBEmpty {}

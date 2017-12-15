@@ -1,0 +1,17 @@
+{
+    "name": "kobaltmusic/grpc-spike",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Rodrigo Diez",
+            "email": "rodrigo.diez@kobaltmusic.com"
+        }
+    ],
+    "require": {
+        "grpc/grpc": "^1.6",
+        "google/protobuf": "v3.5.0.1"
+    },
+    "autoload": {
+      "psr-4": { "": "src/" }
+    }
+}
