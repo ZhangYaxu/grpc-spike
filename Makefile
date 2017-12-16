@@ -1,17 +1,22 @@
+GRPC_PATH = /home/rodrigodiez/src/github.com/grpc/grpc
+PROTOC = $(GRPC_PATH)/bins/opt/protobuf/protoc
+GRPC_PHP_PLUGIN = $(GRPC_PATH)/bins/opt/grpc_php_plugin
+
 dependencies:
 	dep ensure
 
 proto: dependencies
 	rm -fr recording
 	mkdir -p recording
-	protoc \
+	$(PROTOC) \
 		-I/usr/include \
 		-I./vendor \
+		-I./proto \
 		-I./vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-		--proto_path=proto \
-		--go_out=plugins=grpc:./recording proto/recording.proto \
+		--go_out=plugins=grpc:./recording \
 		--grpc-gateway_out=logtostderr=true:./recording \
-		--swagger_out=logtostderr=true:./recording
+		--swagger_out=logtostderr=true:./recording \
+		proto/recording.proto
 
 go: dependencies proto
 	rm -fr bin
@@ -23,20 +28,18 @@ go: dependencies proto
 php: dependencies
 	rm -fr php/src
 	mkdir -p php/src
-	protoc \
+	$(PROTOC) \
 	-I/usr/include \
 	-I./vendor \
+	-I./proto \
 	-I./vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-	--proto_path=proto \
 	--php_out=php/src  \
 	--grpc_out=php/src \
-	--plugin=protoc-gen-grpc=/Users/rodrigo.diez/grpc/bins/opt/grpc_php_plugin proto/recording.proto
+	--plugin=protoc-gen-grpc=$(GRPC_PHP_PLUGIN) proto/recording.proto
 
 	protoc \
 	-I/usr/include \
-	-I./vendor \
 	-I./vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-	--proto_path=proto \
 	--php_out=php/src  \
 	--grpc_out=php/src \
-	--plugin=protoc-gen-grpc=/Users/rodrigo.diez/grpc/bins/opt/grpc_php_plugin vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api/annotations.proto
+	--plugin=protoc-gen-grpc=$(GRPC_PHP_PLUGIN) vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api/*.proto

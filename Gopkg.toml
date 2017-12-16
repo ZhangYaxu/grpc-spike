@@ -25,8 +25,8 @@
   version = "1.5.0"
 
 [[constraint]]
-  branch = "master"
   name = "github.com/golang/protobuf"
+  branch = "master"
 
 [[constraint]]
   branch = "master"
@@ -34,7 +34,7 @@
 
 [[constraint]]
   name = "google.golang.org/grpc"
-  version = "1.8.2"
+  version = "1.8.1"
 
 [[constraint]]
   name = "github.com/grpc-ecosystem/grpc-gateway"
