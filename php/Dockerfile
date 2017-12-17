@@ -1,6 +1,7 @@
 FROM php:7.2-cli
 RUN apt-get update -y && apt-get install zlib1g-dev
-RUN mkdir /usr/src/app
+
+RUN mkdir -p /usr/src/app
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 

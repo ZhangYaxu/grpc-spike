@@ -1,5 +1,9 @@
 /recording
-/php/src
-/php/vendor
+
 /vendor
 /bin
+
+/php/src
+/php/vendor
+
+/nodejs/node_modules

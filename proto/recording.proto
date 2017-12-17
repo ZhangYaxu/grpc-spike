@@ -4,15 +4,6 @@ package recording;
 import "google/api/annotations.proto";
 option php_namespace="KobaltMusic\\Recording";
 
-service RecordingService {
-  rpc AddRecording(Recording) returns (KBEmpty) {}
-  rpc ListRecordings(KBEmpty) returns (ListRecordingsResponse) {
-    option (google.api.http) = {
-      get: "/v1/recordings"
-    };
-  }
-  rpc ListRecordingsStream(KBEmpty) returns (stream Recording) {}
-}
 
 message Author {
   string name = 1;
@@ -23,8 +14,28 @@ message Recording {
   string name = 2;
 }
 
+message AddRecordingRequest {
+  Recording recording = 1;
+}
+message AddRecordingResponse {}
+
+message ListRecordingsRequest {}
+
 message ListRecordingsResponse {
   repeated Recording recordings = 1;
 }
 
-message KBEmpty {}
+service RecordingService {
+  rpc AddRecording(AddRecordingRequest) returns (AddRecordingResponse) {
+    option (google.api.http) = {
+      post: "/v1/recordings"
+      body: "*"
+    };
+  }
+  rpc ListRecordings(ListRecordingsRequest) returns (ListRecordingsResponse) {
+    option (google.api.http) = {
+      get: "/v1/recordings"
+    };
+  }
+  rpc ListRecordingsStream(ListRecordingsRequest) returns (stream Recording) {}
+}

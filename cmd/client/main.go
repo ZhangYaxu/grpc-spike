@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/rodrigodiez/grpc-spike/recording"
+	recordingpb "github.com/rodrigodiez/grpc-spike/recording"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"io"
@@ -11,35 +11,40 @@ import (
 	"os"
 )
 
-var host = flag.String("host", "127.0.0.1", "gRPC server host")
-var port = flag.String("port", "5050", "gRPC server port")
-var authorName = flag.String("author", "Lorem ipsum", "recording author name")
 var recordingName = flag.String("recording", "Dolor sit amet", "recording name")
 var command = flag.String("command", "stream", "service call to run")
-var client recording.RecordingServiceClient;
+var client recordingpb.RecordingServiceClient;
 
 func main() {
 	flag.Parse()
-	log.Printf("connecting to gRPC server %s on port %s...", *host, *port)
+	log.Println("connecting to gRPC server 127.0.0.1 on port 5050")
 
-	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", *host, *port), grpc.WithInsecure(), grpc.WithBlock(), grpc.WithUserAgent("golang-client"))
+	conn, err := grpc.Dial(fmt.Sprintf("%s:%s", "127.0.0.1", "5050"), grpc.WithInsecure(), grpc.WithBlock(), grpc.WithUserAgent("golang-client"))
 	if err != nil {
     handleErr(err)
 	}
 	defer conn.Close()
 
-	client = recording.NewRecordingServiceClient(conn)
+	client = recordingpb.NewRecordingServiceClient(conn)
 
 	switch *command {
 	case "add":
 		add();
+	case "list":
+		list();
 	default:
 		stream();
 	}
 }
 
+func add(){
+	log.Printf("AddRecording() <-- '%s' by '%s'", *recordingName, "Go client")
+	recording := &recordingpb.Recording{Author: &recordingpb.Author{Name: "Go client"}, Name: *recordingName}
+	client.AddRecording(context.Background(), &recordingpb.AddRecordingRequest{ Recording: recording})
+}
+
 func stream(){
-	stream, err := client.ListRecordingsStream(context.Background(), &recording.KBEmpty{})
+	stream, err := client.ListRecordingsStream(context.Background(), &recordingpb.ListRecordingsRequest{})
 	if err != nil {
     handleErr(err)
 	}
@@ -55,13 +60,19 @@ func stream(){
       handleErr(err)
 		}
 
-		log.Printf("received recording '%s' by '%s' from %s", r.Name, r.Author.Name, *host)
+		log.Printf("ListRecordingsStream() --> '%s' by '%s'", r.Name, r.Author.Name)
 	}
 }
 
-func add(){
-	log.Printf("sending recording '%s' by '%s' to %s", *recordingName, *authorName, *host)
-	client.AddRecording(context.Background(), &recording.Recording{Author: &recording.Author{Name: *authorName}, Name: *recordingName})
+func list(){
+	response, err := client.ListRecordings(context.Background(), &recordingpb.ListRecordingsRequest{})
+	if err != nil {
+  	handleErr(err)
+	}
+
+	for _, r := range response.Recordings {
+		log.Printf("ListRecordings() --> '%s' by '%s'", r.Name, r.Author.Name)
+	}
 }
 
 func handleErr(err error){

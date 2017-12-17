@@ -1,18 +1,18 @@
 version: '3'
 services:
   server:
-    image: alpine:3.6
+    image: ubuntu
     ports:
       - "5050:5050"
     volumes:
-      - "./bin:/opt/local/bin"
-    command: /opt/local/bin/linux/server --port 5050 --delay 100
+      - ./bin/linux/server:/opt/local/bin/linux/server
+    command: /opt/local/bin/linux/server --delay 1000
   gw:
-    image: alpine:3.6
+    image: ubuntu
     ports:
       - "8080:8080"
     depends_on:
       - server
     volumes:
-      - "./bin:/opt/local/bin"
+      - ./bin/linux/gw:/opt/local/bin/linux/gw
     command: /opt/local/bin/linux/gw --host server --port 5050
