@@ -19,6 +19,13 @@ export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
 ```
 
+## This repository
+```
+mkdir -p $GOPATH/src/github.com/rodrigodiez
+cd $GOPATH/src/github.com/rodrigodiez
+git clone git@github.com:rodrigodiez/grpc-spike.git
+```
+
 ## Go packages
 ### dep
 Provides dependency management for the project
@@ -51,12 +58,18 @@ go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 # PHP
 [php](http://php.net/) >= 5.6 has to be installed in your machine
 
+# automake, autoconf (Mac Os)
+Provides configuration tools for make (necessary to compile php plugin)
+```
+brew install automake autoconf
+```
+
 # GRPC, C implementation, repository
 Provides protocol Buffers compiler (protoc) and php code generator source code
 
 ```
-mkdir -p $(GOPATH)/src/github.com/grpc/
-cd $(GOPATH)/src/github.com/grpc/
+mkdir -p $GOPATH/src/github.com/grpc/
+cd $GOPATH/src/github.com/grpc/
 git clone git@github.com:grpc/grpc.git
 ```
 
@@ -65,8 +78,12 @@ git clone git@github.com:grpc/grpc.git
 
 # Build
 ```
+cd $GOPATH/src/github.com/rodrigodiez/grpc-spike
 make all
 ```
+
+May take a while
+
 - Compiles php code generator plugin
 - Generates Go and php code from `.proto` files
 - Compiles Go `server`, `client` and `gw` applications
