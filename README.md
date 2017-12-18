@@ -67,9 +67,13 @@ make all
 Inspect the `Makefile` for more fine grained tasks
 
 # Run
+Run one or the other...
 ```
-# starts the server and gw
+# starts a GO server and a JSON gateway
 docker-compose up
+
+# starts a NODE server and a JSON gateway
+docker-compose -f docker-compose-node.yml up
 ```
 
 In a different terminal, experiment with the following operations...
