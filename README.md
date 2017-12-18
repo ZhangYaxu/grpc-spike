@@ -103,7 +103,7 @@ docker run -ti --rm --network grpcspike_default kobaltmusic/grpc-spike:node node
 curl http://localhost:8080/v1/recordings
 ```
 
-## list recordings stream (1000ms delay)
+## list recordings stream (1000ms delay) (delay only if go server, nodejs sleep requires python)
 ```
 # go
 bin/client --command=stream
