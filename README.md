@@ -27,7 +27,7 @@ go get -u github.com/golang/dep/cmd/dep
 ```
 
 ### grpc
-Provides go grpc package, Protocol Buffers compiler (protoc) and php code generator source code
+Provides go grpc package
 ```
 go get -u google.golang.org/grpc
 ```
@@ -51,6 +51,14 @@ go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 # PHP
 [php](http://php.net/) >= 5.6 has to be installed in your machine
 
+# GRPC, C implementation, repository
+Provides protocol Buffers compiler (protoc) and php code generator source code
+
+```
+mkdir -p $(GOPATH)/src/github.com/grpc/
+cd $(GOPATH)/src/github.com/grpc/
+git clone git@github.com:grpc/grpc.git
+```
 
 # Docker
 [docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) have to be installed in your machine

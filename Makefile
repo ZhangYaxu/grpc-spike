@@ -10,7 +10,7 @@ proto: dependencies
 	mkdir -p nodejs/proto
 
 	$(PROTOC) \
-		-I/usr/include \
+		-I./include \
 		-I./vendor \
 		-I./proto \
 		-I./vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
@@ -30,7 +30,7 @@ go: dependencies proto
 php: dependencies
 	mkdir -p php/src
 	$(PROTOC) \
-	-I/usr/include \
+	-I./include \
 	-I./vendor \
 	-I./proto \
 	-I./vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
@@ -39,7 +39,7 @@ php: dependencies
 	--plugin=protoc-gen-grpc=$(GRPC_PHP_PLUGIN) proto/recording.proto
 
 	$(PROTOC) \
-	-I/usr/include \
+	-I./include \
 	-I./vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	--php_out=php/src  \
 	--grpc_out=php/src \
