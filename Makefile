@@ -7,7 +7,8 @@ dependencies:
 
 proto: dependencies
 	mkdir -p recording
-	mkdir nodejs/proto
+	mkdir -p nodejs/proto
+
 	$(PROTOC) \
 		-I/usr/include \
 		-I./vendor \

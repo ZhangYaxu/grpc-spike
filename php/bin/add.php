@@ -22,6 +22,6 @@ $request->setRecording($recording);
 
 // Make the call
 $client->addRecording($request)->wait();
-echo sprintf("ListRecordingsStream() <-- '%s' by '%s'", $recording->getName(), $recording->getAuthor()->getName());
+echo sprintf("AddRecording() <-- '%s' by '%s'", $recording->getName(), $recording->getAuthor()->getName());
 
 // Profit :)
