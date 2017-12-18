@@ -57,6 +57,7 @@ clean:
 	rm -fr nodejs/proto
 	rm -fr bin
 	rm -fr php/src
+	rm -fr vendor
 
 
 all: clean php_plugin proto go php docker
